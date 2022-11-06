@@ -3,22 +3,22 @@ package com.besant.app.servlet;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
- * Servlet implementation class ErrorServlet
+ * Servlet implementation class LogoutServlet
  */
-@WebServlet("/error")
-public class ErrorServlet extends HttpServlet {
+@WebServlet("/logout")
+public class LogoutServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ErrorServlet() {
+    public LogoutServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -27,21 +27,10 @@ public class ErrorServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Cookie[] cookies= request.getCookies();
-		int errorCode=-1;
-		for(Cookie cookie: cookies) {
-			if(cookie.getName().equalsIgnoreCase("errorcode")) {
-				errorCode=Integer.valueOf(cookie.getValue());
-			}
-		}
-		String errorMessage="";
-		if(errorCode == 1){
-			errorMessage="No User Found";
-		}else if(errorCode == 2){
-			errorMessage="Invalid Password";
-		}
-		request.setAttribute("errorMessage", errorMessage);
-		request.getRequestDispatcher("error.jsp").forward(request, response);
+		HttpSession session= request.getSession();
+		session.removeAttribute("userId");
+		session.invalidate();
+		response.sendRedirect("login");
 	}
 
 }

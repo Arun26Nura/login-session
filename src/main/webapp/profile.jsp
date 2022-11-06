@@ -13,5 +13,7 @@ ${user.phone}
 <br>
 ${user.city}
 <br>
+
+<a href="logout"> logout</a>
 </body> 
 </html>

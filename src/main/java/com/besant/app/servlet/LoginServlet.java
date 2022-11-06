@@ -3,6 +3,7 @@ package com.besant.app.servlet;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,15 +40,19 @@ public class LoginServlet extends HttpServlet {
 		String password= request.getParameter("password");
 		
 		LoginService service= new LoginService();
-		Boolean isValidUser= service.isValidUser(userName, password);
+		int responseCode= service.isValidUser(userName, password);
 		
-		if(isValidUser) {
+		//response.addCookie(Cookie.class)
+		if(responseCode == 0 ) {
 			HttpSession session= request.getSession();
 			session.setAttribute("userId", userName);
+			
 			
 			response.sendRedirect("profile");
 			//request.getRequestDispatcher("profile.jsp").forward(request, response);
 		}else {
+			Cookie cookie= new Cookie("errorcode", responseCode+"");
+			response.addCookie(cookie);
 			response.sendRedirect("error");
 		}
 		

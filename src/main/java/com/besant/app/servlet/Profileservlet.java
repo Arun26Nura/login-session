@@ -33,6 +33,7 @@ public class Profileservlet extends HttpServlet {
 		UserProfile user= new UserProfile();
 		HttpSession session = request.getSession();
 		
+		
 		//String name="USER2";
 		String phone="88707";
 		String city="Chennai";
@@ -42,6 +43,7 @@ public class Profileservlet extends HttpServlet {
 		//request
 		request.setAttribute("user", user);		
 		request.getRequestDispatcher("profile.jsp").forward(request, response);
+		
 	}
 
 	/**
